@@ -20,4 +20,3 @@ class TestParser:
         parsed_coordinates = parser.parse(eye_data_mock)
 
         assert parsed_coordinates == coordinates
-

@@ -1,0 +1,1 @@
+NOTE: application requires python3.6
