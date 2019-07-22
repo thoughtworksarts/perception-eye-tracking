@@ -1,30 +1,39 @@
+import json
+
 from flask import Flask, Response
-import tobii_research
+from tobii_research import find_all_eyetrackers, EYETRACKER_GAZE_DATA
 from tobiiresearch.implementation.DisplayArea import DisplayArea
 
 from eye_tracking.eye_tracker_controller import EyeTrackerController
 from eye_tracking.gaze_data_callback import gaze_data_callback
 from eye_tracking.config import DISPLAY_AREA_CONFIG
+from eye_tracking.local_storage import LocalStorage
+from eye_tracking.config import EYE_TRACKING_DATA_FILENAME
 
 app = Flask(__name__)
 
-eye_tracker = tobii_research.find_all_eyetrackers()[0]
+eye_trackers = find_all_eyetrackers()
+eye_tracker = eye_trackers[0]
 
 display_area = DisplayArea(DISPLAY_AREA_CONFIG)
 
-eye_tracker_controller = EyeTrackerController(eye_tracker=eye_tracker, display_area=display_area)
+eye_tracker.set_display_area(display_area)
+eye_tracking_controller = EyeTrackerController(eye_tracker=eye_tracker, display_area=display_area)
 
 
 @app.route('/start_eye_tracking')
 def start_eye_tracking():
     # TODO: maybe add try/catch around this line
-    eye_tracker_controller.subscribe_with_callback(gaze_data_callback)
+    eye_tracking_controller.subscribe_with_callback(gaze_data_callback)
     return Response(status=200, response='Success')
 
 
 @app.route('/stop_eye_tracking')
 def stop_eye_tracking():
-    return Response(status=200, response='Success')
+    local_storage = LocalStorage(file_name=EYE_TRACKING_DATA_FILENAME)
+
+    eye_tracking_controller.unsubscribe()
+    return Response(status=200, response=json.dumps({'quadrant': 1}),)
 
 
 if __name__ == '__main__':
