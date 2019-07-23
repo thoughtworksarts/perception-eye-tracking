@@ -35,7 +35,7 @@ def stop_eye_tracking():
     quadrant_calculator = QuadrantCalculator(local_storage)
     quadrant = quadrant_calculator.calculate_quadrant()
     eye_tracking_controller.unsubscribe()
-    return Response(status=200, response=json.dumps({'quadrant': quadrant}),)
+    return Response(status=200, response=json.dumps({'quadrant': quadrant}))
 
 
 if __name__ == '__main__':

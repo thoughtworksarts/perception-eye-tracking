@@ -8,8 +8,8 @@ class EyeTrackerController:
         self.eye_tracker = eye_tracker
         self.eye_tracker.set_display_area(display_area)
 
-    def subscribe_with_callback(self, gaze_data_callback):
+    def subscribe_with_callback(self, gaze_data_callback) -> None:
         self.eye_tracker.subscribe_to(EYETRACKER_GAZE_DATA, gaze_data_callback)
 
-    def unsubscribe(self):
+    def unsubscribe(self) -> None:
         self.eye_tracker.unsubscribe_from(EYETRACKER_GAZE_DATA)

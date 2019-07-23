@@ -15,7 +15,7 @@ class Parser:
     def get_coordinates_from_eye_data(eye_data: EyeData) -> Tuple:
         return eye_data.gaze_point.position_on_display_area
 
-    def get_coordinates_from_stored_data(self):
+    def get_coordinates_from_stored_data(self) -> list:
         return [
             (self.left_eye_x_coordinate, self.left_eye_y_coordinate),
             (self.right_eye_x_coordinate, self.right_eye_y_coordinate)
