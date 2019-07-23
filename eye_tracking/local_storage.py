@@ -21,10 +21,8 @@ class LocalStorage:
         result = []
         data = [line.strip() for line in data]
 
-        for data_line in data:
-
-            data_line_strings = data_line.split(',')
-            parser = Parser(data_line_strings)
+        for stored_data_row in data:
+            parser = Parser(stored_data_row.split(','))
             eye_data_tuples = parser.get_coordinates_from_stored_data()
             result.append(eye_data_tuples)
 
