@@ -1,7 +1,7 @@
 import json
 
 from flask import Flask, Response
-from tobii_research import find_all_eyetrackers, EYETRACKER_GAZE_DATA
+from tobii_research import find_all_eyetrackers
 from tobiiresearch.implementation.DisplayArea import DisplayArea
 
 from eye_tracking.eye_tracker_controller import EyeTrackerController
@@ -9,6 +9,7 @@ from eye_tracking.gaze_data_callback import gaze_data_callback
 from eye_tracking.config import DISPLAY_AREA_CONFIG
 from eye_tracking.local_storage import LocalStorage
 from eye_tracking.config import EYE_TRACKING_DATA_FILENAME
+from eye_tracking.quadrant_calculator import QuadrantCalculator
 
 app = Flask(__name__)
 
@@ -31,9 +32,10 @@ def start_eye_tracking():
 @app.route('/stop_eye_tracking')
 def stop_eye_tracking():
     local_storage = LocalStorage(file_name=EYE_TRACKING_DATA_FILENAME)
-
+    quadrant_calculator = QuadrantCalculator(local_storage)
+    quadrant = quadrant_calculator.calculate_quadrant()
     eye_tracking_controller.unsubscribe()
-    return Response(status=200, response=json.dumps({'quadrant': 1}),)
+    return Response(status=200, response=json.dumps({'quadrant': quadrant}),)
 
 
 if __name__ == '__main__':
