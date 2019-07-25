@@ -1,6 +1,7 @@
 .idea/
 data/
 uploads/
+*eye_tracking_data.*
 
 # Editor temporary/working/backup files #
 #########################################

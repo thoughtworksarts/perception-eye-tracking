@@ -7,7 +7,7 @@ class LocalStorage:
         self.eye_tracking_data_file = open(file_name, mode)
 
     def store(self, left_eye_coordinates: tuple, right_eye_coordinates: tuple) -> None:
-        print(left_eye_coordinates, right_eye_coordinates)
+        #print(left_eye_coordinates, right_eye_coordinates)
         self.eye_tracking_data_file.writelines('{},{},{},{}\n'.format(
             left_eye_coordinates[0], left_eye_coordinates[1],
             right_eye_coordinates[0], right_eye_coordinates[1])
