@@ -4,8 +4,7 @@ from tobii_research import EYETRACKER_GAZE_DATA
 
 from eye_tracking.quadrant_calculator import QuadrantCalculator
 from eye_tracking.local_storage import LocalStorage
-from eye_tracking.gaze_data_callback import gaze_data_callback
-from eye_tracking.get_gaze_data_by_level_id import get_gaze_data
+from eye_tracking.gaze_data_callback import gaze_data_callback, get_gaze_data
 
 class EyeTrackerController:
     def __init__(self, eye_tracker: EyeTracker, display_area: DisplayArea,
