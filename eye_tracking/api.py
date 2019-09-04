@@ -7,14 +7,14 @@ from eye_tracking.eye_tracker_controller_factory import EyeTrackerControllerFact
 app = Flask(__name__)
 
 
-@app.route('/eye-tracking/start', methods=['POST']) # levelId, startTime, stopTime
+@app.route('/eye-tracking/start', methods=['POST'])
 def start_eye_tracking():
     eye_tracking_controller = EyeTrackerControllerFactory.get_eye_tracker_controller(mode='a+')
-    eye_tracking_controller.subscribe_with_callback(request.form['levelId'])
+    eye_tracking_controller.subscribe_with_callback()
     return Response(status=200, response='Success')
 
 
-@app.route('/eye-tracking/stop', methods=['POST']) # levelId
+@app.route('/eye-tracking/stop', methods=['POST'])
 def stop_eye_tracking():
     eye_tracking_controller = EyeTrackerControllerFactory.get_eye_tracker_controller(mode='r')
     eye_tracking_controller.unsubscribe()
@@ -23,7 +23,7 @@ def stop_eye_tracking():
 @app.route('/eye-tracking/visualization', methods=['POST'])
 def create_eye_tracking_visualization():
     eye_tracking_controller = EyeTrackerControllerFactory.get_eye_tracker_controller(mode='r')
-    return eye_tracking_controller.create_eye_tracking_visualization(request.args['levels'])
+    return eye_tracking_controller.create_eye_tracking_visualization()
 
 if __name__ == '__main__':
     app.run(debug=True)

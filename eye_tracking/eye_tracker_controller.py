@@ -14,33 +14,20 @@ class EyeTrackerController:
         self.local_storage = local_storage
         self.quadrant_calculator = quadrant_calculator
 
-    def subscribe_with_callback(self, level_id) -> None:
+    def subscribe_with_callback(self) -> None:
         self.eye_tracker.subscribe_to(EYETRACKER_GAZE_DATA, gaze_data_callback)
 
-    def create_eye_tracking_visualization(self, levels):
+    def create_eye_tracking_visualization(self, visualization_data):
         file_name = generate_filename()
-        create_data_visualization(file_name, get_levels_with_gaze_data(levels, get_gaze_data_by_level_id(get_level_ids(levels))))
+        create_data_visualization(file_name, visualization_data, get_gaze_data())
         return file_name
-
-    def get_level_ids(levels):
-        return [level.id for level in levels]
-    
-    def get_levels_with_gaze_data(levels, gaze_data_by_level_id):
-        for level in levels:
-            level.gaze_data = gaze_data_by_level_id[level.id]
-        return levels
-
-    def get_gaze_data_by_level_id(level_ids):
-        gaze_data_by_level_id = {}
-        for level_id in level_ids:
-            gaze_data_by_level_id[level_id] = get_gaze_data(level_id)
-        return gaze_data_by_level_id
     
     def generate_filename():
         return 'hue'
     
-    def create_data_visualization(file_name, gaze_data_by_level_id):
-        print(hue)
+    def create_data_visualization(file_name, visualization_data, gaze_data):
+        print(visualization_data)
+        print(gaze_data)
 
     def unsubscribe(self) -> None:
         self.eye_tracker.unsubscribe_from(EYETRACKER_GAZE_DATA)
