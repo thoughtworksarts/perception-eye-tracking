@@ -7,28 +7,23 @@ from eye_tracking.local_storage import LocalStorage
 from eye_tracking.gaze_data_callback import gaze_data_callback, get_gaze_data
 
 class EyeTrackerController:
-    def __init__(self, eye_tracker: EyeTracker, display_area: DisplayArea,
-                 local_storage: LocalStorage, quadrant_calculator: QuadrantCalculator):
+    def __init__(self, eye_tracker: EyeTracker):
         self.eye_tracker = eye_tracker
-        self.eye_tracker.set_display_area(display_area)
-        self.local_storage = local_storage
-        self.quadrant_calculator = quadrant_calculator
 
     def subscribe_with_callback(self) -> None:
+        if self.eye_tracker is None:
+            return
         self.eye_tracker.subscribe_to(EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)
 
-    def generate_filename(self):
-        return 'hue'
-
-    def create_eye_tracking_visualization(self, visualization_data):
-        file_name = self.generate_filename()
-        self.create_data_visualization(visualization_data, get_gaze_data())
-        return file_name
-
-    
-    def create_data_visualization(self, visualization_data, gaze_data):
-        print(gaze_data)
+    def create_visualization(self, visualization_data):
+        if self.eye_tracker is None:
+            from simulated_data import simulated_data
+            return simulated_data()
+        else:
+            print(get_gaze_data())
         print(visualization_data)
 
     def unsubscribe(self) -> None:
+        if self.eye_tracker is None:
+            return
         self.eye_tracker.unsubscribe_from(EYETRACKER_GAZE_DATA, gaze_data_callback)

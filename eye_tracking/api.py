@@ -5,7 +5,7 @@ from flask import Flask, Response, request
 from eye_tracking.eye_tracker_controller_factory import EyeTrackerControllerFactory
 
 app = Flask(__name__)
-eye_tracking_controller = EyeTrackerControllerFactory.get_eye_tracker_controller(mode='a+')
+eye_tracking_controller = EyeTrackerControllerFactory.get_eye_tracker_controller()
 
 @app.route('/eye-tracking/start', methods=['POST'])
 def start_eye_tracking():
@@ -19,7 +19,9 @@ def stop_eye_tracking():
 
 @app.route('/visualization', methods=['POST'])
 def create_eye_tracking_visualization():
-    return eye_tracking_controller.create_eye_tracking_visualization(json.loads(request.data))
+    eye_tracking_controller.create_visualization(json.loads(request.data))
+    return Response(status=200, response='Success')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

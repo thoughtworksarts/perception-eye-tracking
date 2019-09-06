@@ -12,15 +12,12 @@ from eye_tracking.config import EYE_TRACKING_DATA_FILENAME
 class EyeTrackerControllerFactory:
 
     @staticmethod
-    def get_eye_tracker_controller(mode: str):
+    def get_eye_tracker_controller():
         eye_trackers = find_all_eyetrackers()
-        eye_tracker = eye_trackers[0]
+        if len(eye_trackers) > 0:
+            eye_tracker = eye_trackers[0]
+            eye_tracker.set_display_area(DisplayArea(DISPLAY_AREA_CONFIG))
+        else:
+            eye_tracker = None
 
-        display_area = DisplayArea(DISPLAY_AREA_CONFIG)
-        eye_tracker.set_display_area(display_area)
-
-        local_storage = LocalStorage(file_name=EYE_TRACKING_DATA_FILENAME, mode=mode)
-        quadrant_calculator = QuadrantCalculator()
-
-        return EyeTrackerController(eye_tracker=eye_tracker, display_area=display_area,
-                                    local_storage=local_storage, quadrant_calculator=quadrant_calculator)
+        return EyeTrackerController(eye_tracker=eye_tracker)
