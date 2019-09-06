@@ -20,7 +20,7 @@ def stop_eye_tracking():
     eye_tracking_controller.unsubscribe()
     return Response(status=200, response='Success')
 
-@app.route('/eye-tracking/visualization', methods=['POST'])
+@app.route('/visualization', methods=['POST'])
 def create_eye_tracking_visualization():
     eye_tracking_controller = EyeTrackerControllerFactory.get_eye_tracker_controller(mode='r')
     return eye_tracking_controller.create_eye_tracking_visualization()
