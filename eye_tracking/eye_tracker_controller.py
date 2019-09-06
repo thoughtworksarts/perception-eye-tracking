@@ -15,19 +15,20 @@ class EyeTrackerController:
         self.quadrant_calculator = quadrant_calculator
 
     def subscribe_with_callback(self) -> None:
-        self.eye_tracker.subscribe_to(EYETRACKER_GAZE_DATA, gaze_data_callback)
+        self.eye_tracker.subscribe_to(EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)
+
+    def generate_filename(self):
+        return 'hue'
 
     def create_eye_tracking_visualization(self, visualization_data):
-        file_name = generate_filename()
-        create_data_visualization(file_name, visualization_data, get_gaze_data())
+        file_name = self.generate_filename()
+        self.create_data_visualization(visualization_data, get_gaze_data())
         return file_name
+
     
-    def generate_filename():
-        return 'hue'
-    
-    def create_data_visualization(file_name, visualization_data, gaze_data):
-        print(visualization_data)
+    def create_data_visualization(self, visualization_data, gaze_data):
         print(gaze_data)
+        print(visualization_data)
 
     def unsubscribe(self) -> None:
-        self.eye_tracker.unsubscribe_from(EYETRACKER_GAZE_DATA)
+        self.eye_tracker.unsubscribe_from(EYETRACKER_GAZE_DATA, gaze_data_callback)
